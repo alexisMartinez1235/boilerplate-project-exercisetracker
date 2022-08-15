@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LogSchema = new mongoose.Schema({
-  Logname: {
+  username: {
     type: String,
     required: true,
-    ref: 'Log',
+    ref: 'User',
   },
   count: {
     type: Number,

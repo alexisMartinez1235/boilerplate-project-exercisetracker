@@ -5,7 +5,7 @@ const ExerciseSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    ref: 'User'
+    ref: 'User',
   },
   description: {
     type: String,
@@ -13,13 +13,12 @@ const ExerciseSchema = new mongoose.Schema({
   },
   duration: {
     type: Number,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
-    required: true
+    required: true,
   },
-}
 });
 
 const Exercise = mongoose.model('Exercise', ExerciseSchema, 'Exercise');
