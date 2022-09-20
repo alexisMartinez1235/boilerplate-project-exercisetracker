@@ -1,9 +1,46 @@
 const express = require('express');
 const date = express.Router();
 
+// determine date if it is undefined
+function determinateDate(req, res, next) {
+  const { date } = req.body;
+  let auxDate = new Date();
+  
+  if (! (typeof date === 'undefined' || date === "")) {
+    auxDate = new Date(date);
+  }
+  
+  let yearMonthDay = [
+    auxDate.getUTCFullYear().toString(),
+    
+    // beacause in programming we start to count at 0
+    (auxDate.getMonth() + 1).toString(),
+    
+    auxDate.getUTCDate().toString(),
+  ];
+    
+  let dateString = "";
+  
+  yearMonthDay.forEach((obj) => {
+    if (obj.length === 1) {
+      dateString += ("0" + obj).slice(-2);
+    } else {
+      dateString += ("0" + obj).slice(-obj.length);
+    }
+    dateString += "-";
+  });
+  
+  dateString = dateString.slice(0, 10);
+  
+  req.app.locals.data.date = dateString;
+  
+  next();
+  return dateString;
+}
+
 // extract info from date
 date.use((req, res, next) => {
-  const { date } = req.app.locals.data;
+  const { date } = req.app.locals.response;
   
   req.app.locals.dateString = {};
   
@@ -46,8 +83,13 @@ date.use((req, res, next) => {
     year,
   } = req.app.locals.dateString;
   
-  req.app.locals.data.date = `${weekDay} ${monthName} ${monthDay} ${year}`;
+  req.app.locals.response.date = `${weekDay} ${monthName} ${monthDay} ${year}`;
+  // console.log(req.app.locals.response);
+  
   return next();
 });
 
-module.exports = date;
+module.exports = {
+  determinateDate,
+  date
+};

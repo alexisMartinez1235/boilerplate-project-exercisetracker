@@ -1,6 +1,5 @@
 const express = require('express');
 const user = require('./user');
-const log = require('./log');
 
 const api = express.Router();
 
@@ -18,9 +17,9 @@ api.use('/users', user);
  
 // send response
 api.use((req, res, next) => {
-  let { data } = req.app.locals;
+  const { response } = req.app.locals;
 
-  res.status(200).json(data);
+  res.status(200).json(response);
 });
 
 module.exports = api;

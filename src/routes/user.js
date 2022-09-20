@@ -2,7 +2,7 @@ const express = require('express');
 const { User } = require('../model/User');
 
 const exercise = require('./exercise');
-const log = require('./log');
+const { log } = require('./log');
 
 const user = express.Router();
 
@@ -13,7 +13,7 @@ user.get('/', (req, res, next) => {
       err, id:'/user-1-get'
     });
   
-    req.app.locals.data = users;
+    req.app.locals.response = users;
     return next();
   });
 });
@@ -39,7 +39,7 @@ user.post('/', (req, res, next) => {
         id:'/user-2-post'
       });
       if (userCreated)  {
-        req.app.locals.data = {
+        req.app.locals.response = {
           _id: userCreated._id,
           username: userCreated.username,
         };
